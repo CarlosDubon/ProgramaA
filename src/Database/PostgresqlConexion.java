@@ -32,7 +32,7 @@ public class PostgresqlConexion {
      */
     public Connection abrirConexion() {
         String driver = "org.postgresql.Driver";
-        String connectString = "jdbc:postgresql://localhost:5432/parcialfinalPOO17";
+        String connectString = "jdbc:postgresql://192.168.1.2:5432/parcialfinalPOO17";
         String user = "postgres";
         String password = "root";
         Connection con = null;

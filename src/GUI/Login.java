@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -42,7 +43,9 @@ public class Login extends JFrame{
         JPanel jpBotones = new JPanel();
         GridLayout gl2 = new GridLayout(4,0,3,10);
         JButton btnSolAcceso = new JButton("Solicitar Acceso");
+        btnSolAcceso.setEnabled(false);
         JButton btnAbrirP = new JButton("Abrir Puerta");
+        btnAbrirP.setEnabled(false);
         JButton btnCancel = new JButton("Cancel");
         
         jpBotones.setLayout(gl2);
@@ -76,15 +79,25 @@ public class Login extends JFrame{
                     public void actionPerformed(ActionEvent e) {
                         String usuario = txtCod.getText();
                         String pass = txtPass.getText();
-                        if(sql.addRegistro(usuario, pass)){
-                            System.out.println("ya la hicimos");
+                        boolean flag;
+                        if(sql.verificarUsuario(usuario, pass)){
+                            if(sql.verificarCategory(usuario, pass)){
+                                btnSolAcceso.setEnabled(true);
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Usted no tiene la categoria suficiente para entrar","ATENCION",JOptionPane.DEFAULT_OPTION);
+                            }
                         }else{
-                            System.out.println("No la hicimos :'v");
+                            btnValidar.setEnabled(false);
+                            sql.addRegistro(usuario, pass);
+                            JOptionPane.showMessageDialog(null,"Por seguridad se ha registrado su actividad","ATENCION",JOptionPane.DEFAULT_OPTION);
+
                         }
+                        
                         
                     }
                 }
         );
+        
     }
      
     

@@ -39,4 +39,46 @@ public class DBQuery {
         return true;
     
     }
+    
+    public boolean verificarUsuario(String User, String Pass){
+        boolean flag = false;
+        try{
+            con = conexion.abrirConexion();
+            String query = "SELECT * FROM researcher WHERE idresearcher = ? AND pass = ?";
+            PreparedStatement PQuery = con.prepareStatement(query);
+            PQuery.setString(1, User);
+            PQuery.setString(2, Pass);
+            ResultSet rs = PQuery.executeQuery();
+            
+            while(rs.next()){
+                flag = true;
+            }
+            PQuery.close();
+            conexion.cerrarConexion(con);
+        }catch(SQLException sqlE){
+            System.out.println("Error: " + sqlE.getMessage());
+        }
+        return flag;
+    }
+    
+        public boolean verificarCategory(String User, String Pass){
+        boolean flag = false;
+        try{
+            con = conexion.abrirConexion();
+            String query = "SELECT * FROM researcher WHERE idresearcher = ? AND pass = ? AND idcat = 1 OR idcat = 2 OR idcat=3";
+            PreparedStatement PQuery = con.prepareStatement(query);
+            PQuery.setString(1, User);
+            PQuery.setString(2, Pass);
+            ResultSet rs = PQuery.executeQuery();
+            
+            while(rs.next()){
+                flag = true;
+            }
+            PQuery.close();
+            conexion.cerrarConexion(con);
+        }catch(SQLException sqlE){
+            System.out.println("Error: " + sqlE.getMessage());
+        }
+        return flag;
+    }
 }
