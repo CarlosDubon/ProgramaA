@@ -5,10 +5,13 @@
  */
 package GUI;
 
+import Database.DBQuery;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -17,8 +20,10 @@ import javax.swing.*;
  * @author Carlos
  */
 public class Login extends JFrame{
+        private DBQuery sql;
     public Login(int w, int h, String title){
         super(title);
+        sql = new DBQuery();
         JTextField txtCod = new JTextField(17);
         JPasswordField txtPass = new JPasswordField(17);
         JButton btnValidar = new JButton("Validar");
@@ -64,6 +69,23 @@ public class Login extends JFrame{
                 
                 
         setResizable(false);
+        
+        btnValidar.addActionListener(
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String usuario = txtCod.getText();
+                        String pass = txtPass.getText();
+                        if(sql.addRegistro(usuario, pass)){
+                            System.out.println("ya la hicimos");
+                        }else{
+                            System.out.println("No la hicimos :'v");
+                        }
+                        
+                    }
+                }
+        );
     }
+     
     
 }
