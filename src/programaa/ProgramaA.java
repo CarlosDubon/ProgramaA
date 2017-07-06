@@ -5,6 +5,8 @@
  */
 package programaa;
 
+import GUI.Login;
+
 /**
  *
  * @author Carlos
@@ -16,6 +18,7 @@ public class ProgramaA {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Login login = new Login(250,400,"INICIAR SESION");
     }
     
 }
