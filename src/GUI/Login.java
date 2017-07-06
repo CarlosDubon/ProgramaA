@@ -98,6 +98,16 @@ public class Login extends JFrame{
                 }
         );
         
+        btnCancel.addActionListener(
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.exit(0);
+                    }
+                
+                }
+        );
+        
     }
      
     
