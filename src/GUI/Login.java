@@ -92,8 +92,8 @@ public class Login extends JFrame{
                         Timestamp fullDate = getCurrentTime();
                         String usuario = txtCod.getText();
                         String pass = new String(txtPass.getPassword());
-                        pass = MD5(pass);
-                        if(sql.verificarUsuario(usuario, pass)){
+                        String Encpass = MD5(pass);
+                        if(sql.verificarUsuario(usuario, Encpass)){
                             if(sql.verificarCategory(usuario, pass)){
                                 txtCod.setEnabled(false);
                                 txtPass.setEnabled(false);
@@ -149,11 +149,7 @@ public class Login extends JFrame{
                         } catch (IOException ex) {
                             JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
 
-                        }
-                        
-                        
-
-                        
+                        }  
                     }
                 
         });
