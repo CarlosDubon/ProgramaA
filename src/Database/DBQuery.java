@@ -67,7 +67,7 @@ public class DBQuery {
         boolean flag = false;
         try{
             con = conexion.abrirConexion();
-            String query = "SELECT * FROM researcher WHERE idresearcher = ? AND pass = ? AND idcat = 1 OR idcat = 2 OR idcat=3";
+            String query = "SELECT * FROM researcher WHERE idresearcher = ? AND pass = ? AND (idcat = 1 OR idcat = 2 OR idcat=3)";
             PreparedStatement PQuery = con.prepareStatement(query);
             PQuery.setString(1, User);
             PQuery.setString(2, Pass);

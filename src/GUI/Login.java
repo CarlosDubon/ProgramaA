@@ -13,6 +13,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -26,7 +28,10 @@ import javax.swing.*;
  * @author Carlos
  */
 public class Login extends JFrame{
+        public int count;
         private DBQuery sql;
+        public JButton btnAbrirP;
+        public JButton btnSolAcceso;
     public Login(int w, int h, String title){
         super(title);
         sql = new DBQuery();
@@ -47,9 +52,9 @@ public class Login extends JFrame{
         
         JPanel jpBotones = new JPanel();
         GridLayout gl2 = new GridLayout(4,0,3,10);
-        JButton btnSolAcceso = new JButton("Solicitar Acceso");
+        btnSolAcceso = new JButton("Solicitar Acceso");
         btnSolAcceso.setEnabled(false);
-        JButton btnAbrirP = new JButton("Abrir Puerta");
+        btnAbrirP = new JButton("Abrir Puerta");
         btnAbrirP.setEnabled(false);
         JButton btnCancel = new JButton("Cancel");
         
@@ -94,7 +99,7 @@ public class Login extends JFrame{
                         String pass = new String(txtPass.getPassword());
                         String Encpass = MD5(pass);
                         if(sql.verificarUsuario(usuario, Encpass)){
-                            if(sql.verificarCategory(usuario, pass)){
+                            if(sql.verificarCategory(usuario, Encpass)){
                                 txtCod.setEnabled(false);
                                 txtPass.setEnabled(false);
                                 btnValidar.setEnabled(false);
@@ -128,28 +133,9 @@ public class Login extends JFrame{
                 new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String cadena;
                         btnSolAcceso.setEnabled(false);
-                        try {
-                            Cliente c = new Cliente();
-                            try {
-                                cadena = c.leer("Verificando");
-                                if(cadena.equals("GO")){
-                                    btnAbrirP.setEnabled(true);
-                                    
-                                }else{
-                                    JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
-                                    c.closeCon();
-                                    System.exit(0);
-                                }
-                            } catch (InterruptedException ex) {
-                            }
-                            
-                            
-                        } catch (IOException ex) {
-                            JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
-
-                        }  
+                        Thread esperar = new Thread(new Esperar());
+                        esperar.start();
                     }
                 
         });
@@ -164,7 +150,44 @@ public class Login extends JFrame{
                 
                 }
         );
-        
+        txtCod.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+            }
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                JTextField JAux= txtCod;
+                String Aux= JAux.getText();
+                int Limite= 5;
+                
+                if(Aux.length()> Limite-1){
+                    Aux=Aux.substring(0, Limite-1);
+                    JAux.setText(Aux);
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent ke) {
+            }
+        });
+        txtPass.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+            }
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                JTextField JAux= txtCod;
+                String Aux= JAux.getText();
+                int Limite= 30;
+                
+                if(Aux.length()> Limite-1){
+                    Aux=Aux.substring(0, Limite-1);
+                    JAux.setText(Aux);
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent ke) {
+            }
+        });
     }
     
     private Timestamp getCurrentTime(){
@@ -185,6 +208,44 @@ public class Login extends JFrame{
         catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
+    }
+    
+    public class Esperar implements Runnable{
+        Solicitud s;
+        @Override
+        public void run() {
+            try {
+                s = new Solicitud();
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+            }
+            String cadena;
+            try {
+                Cliente c = new Cliente();
+                try {
+                    cadena = c.leer("...");
+                    if(cadena.equals("GO")){
+                        s.dispose();
+                        btnAbrirP.setEnabled(true);
+                        
+                    }else{
+                        JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+                        c.closeCon();
+                        System.exit(0);
+                    }
+                } catch (InterruptedException ex) {
+                        JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+                }
+
+
+            } catch (IOException ex) {
+                JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+                s.dispose();
+                btnSolAcceso.setEnabled(true);
+                
+            } 
+        }
+    
     }
     
 }
