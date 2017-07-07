@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import javax.swing.*;
 
 /**
@@ -14,6 +15,7 @@ import javax.swing.*;
  * @author Carlos
  */
 public class Solicitud extends JFrame {
+    private Toolkit T1= Toolkit.getDefaultToolkit();
     public Solicitud(){
         JPanel msg = new JPanel();
         msg.add(new JLabel("Esperando Solicitud"));
@@ -23,12 +25,12 @@ public class Solicitud extends JFrame {
         cp.add(msg);
         
         setSize(250,100);
+        this.setUndecorated(true);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setFocusable(true);
-        setLocationRelativeTo(null);
+        this.setLocation(((int)T1.getScreenSize().getWidth()/2)+200,(int)(T1.getScreenSize().getHeight()/2)-200);
         setResizable(false);
-        
+       
         
     }
 }
