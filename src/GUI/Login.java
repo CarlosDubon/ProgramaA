@@ -95,6 +95,8 @@ public class Login extends JFrame{
                         boolean flag;
                         if(sql.verificarUsuario(usuario, pass)){
                             if(sql.verificarCategory(usuario, pass)){
+                                txtCod.setEnabled(false);
+                                txtPass.setEnabled(false);
                                 btnValidar.setEnabled(false);
                                 btnSolAcceso.setEnabled(true);
                             }else{
@@ -134,9 +136,9 @@ public class Login extends JFrame{
                                 cadena = c.leer("Verificando");
                                 if(cadena.equals("GO")){
                                     btnAbrirP.setEnabled(true);
-                                    JOptionPane.showMessageDialog(null,"ha sido autorizado. Abriendo puerta...","EXITO",JOptionPane.DEFAULT_OPTION);
-                                    System.exit(0);
+                                    
                                 }else{
+                                    JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
                                     c.closeCon();
                                     System.exit(0);
                                 }
@@ -145,6 +147,8 @@ public class Login extends JFrame{
                             
                             
                         } catch (IOException ex) {
+                            JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+
                         }
                         
                         
@@ -153,6 +157,17 @@ public class Login extends JFrame{
                     }
                 
         });
+        
+        btnAbrirP.addActionListener(
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JOptionPane.showConfirmDialog(null,"Conexion establecida... Abriendo pueta de entrada","Conexion exitosa",JOptionPane.DEFAULT_OPTION);
+                        System.exit(0);
+                    }
+                
+                }
+        );
         
     }
     
