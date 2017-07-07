@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.*;
@@ -77,6 +78,14 @@ public class Login extends JFrame{
                 new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        /* Calendar fecha = Calendar.getInstance();
+                        String anio = "" +fecha.get(Calendar.YEAR);
+                        int mes = fecha.get(Calendar.MONTH)+1;
+                        String dia = "" +fecha.get(Calendar.DAY_OF_MONTH);
+                        String horas = "" +fecha.get(Calendar.HOUR_OF_DAY);
+                        String minutos = "" +fecha.get(Calendar.MINUTE);
+                        String fullFecha = anio + "-" + mes + "-" + dia + " " + horas + ":" + minutos;*/
+                        Timestamp fullDate = getCurrentTime();
                         String usuario = txtCod.getText();
                         String pass = txtPass.getText();
                         boolean flag;
@@ -88,7 +97,8 @@ public class Login extends JFrame{
                             }
                         }else{
                             btnValidar.setEnabled(false);
-                            sql.addRegistro(usuario, pass);
+                            sql.addRegistro(usuario, pass,fullDate);
+                            System.out.println(fullDate);
                             JOptionPane.showMessageDialog(null,"Por seguridad se ha registrado su actividad","ATENCION",JOptionPane.DEFAULT_OPTION);
 
                         }
@@ -109,6 +119,10 @@ public class Login extends JFrame{
         );
         
     }
-     
+    
+    private Timestamp getCurrentTime(){
+	java.util.Date today = new java.util.Date();
+	return new Timestamp(today.getTime());
+    }
     
 }

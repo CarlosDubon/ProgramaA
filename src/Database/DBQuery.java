@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 /**
  *
  * @author Carlos
@@ -21,13 +22,14 @@ public class DBQuery {
         conexion = new PostgresqlConexion();
     }
     
-    public boolean addRegistro(String usedNick, String usedPass){
+    public boolean addRegistro(String usedNick, String usedPass, Timestamp Hora){
         try{
             con = conexion.abrirConexion();
-            String query = "INSERT INTO failedLoginReg (usednick,usedpass) Values (?,?)";
+            String query = "INSERT INTO failedLoginReg (usednick,usedpass,hora) Values (?,?,?)";
             PreparedStatement Pquery = con.prepareStatement(query);
             Pquery.setString(1,usedNick);
             Pquery.setString(2,usedPass);
+            Pquery.setTimestamp(3, Hora);
             
             Pquery.executeUpdate();
             
