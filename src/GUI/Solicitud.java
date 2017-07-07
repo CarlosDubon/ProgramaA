@@ -22,7 +22,7 @@ public class Solicitud extends JFrame {
         cp.setLayout(fl);
         cp.add(msg);
         
-        setSize(100,100);
+        setSize(250,100);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFocusable(true);

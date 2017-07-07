@@ -27,6 +27,7 @@ import javax.swing.*;
  */
 public class Login extends JFrame{
         private DBQuery sql;
+        public JButton btnAbrirP;
     public Login(int w, int h, String title){
         super(title);
         sql = new DBQuery();
@@ -49,7 +50,7 @@ public class Login extends JFrame{
         GridLayout gl2 = new GridLayout(4,0,3,10);
         JButton btnSolAcceso = new JButton("Solicitar Acceso");
         btnSolAcceso.setEnabled(false);
-        JButton btnAbrirP = new JButton("Abrir Puerta");
+        btnAbrirP = new JButton("Abrir Puerta");
         btnAbrirP.setEnabled(false);
         JButton btnCancel = new JButton("Cancel");
         
@@ -128,29 +129,9 @@ public class Login extends JFrame{
                 new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Solicitud sl = new Solicitud();
-                        String cadena;
                         btnSolAcceso.setEnabled(false);
-                        try {
-                            Cliente c = new Cliente();
-                            try {
-                                cadena = c.leer("Verificando");
-                                if(cadena.equals("GO")){
-                                    btnAbrirP.setEnabled(true);
-                                    
-                                }else{
-                                    JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
-                                    c.closeCon();
-                                    System.exit(0);
-                                }
-                            } catch (InterruptedException ex) {
-                            }
-                            
-                            
-                        } catch (IOException ex) {
-                            JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
-
-                        }  
+                        Thread esperar = new Thread(new Esperar());
+                        esperar.start();
                     }
                 
         });
@@ -186,6 +167,42 @@ public class Login extends JFrame{
         catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
+    }
+    
+    public class Esperar implements Runnable{
+        Solicitud s;
+        @Override
+        public void run() {
+            try {
+                s = new Solicitud();
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+            }
+            String cadena;
+            try {
+                Cliente c = new Cliente();
+                try {
+                    cadena = c.leer("...");
+                    if(cadena.equals("GO")){
+                        s.dispose();
+                        btnAbrirP.setEnabled(true);
+                        
+                    }else{
+                        JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+                        c.closeCon();
+                        System.exit(0);
+                    }
+                } catch (InterruptedException ex) {
+                        JOptionPane.showConfirmDialog(null,"No se ha autorizado su conexion... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+                }
+
+
+            } catch (IOException ex) {
+                JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
+
+            } 
+        }
+    
     }
     
 }
