@@ -98,7 +98,6 @@ public class Login extends JFrame{
                         }else{
                             btnValidar.setEnabled(false);
                             sql.addRegistro(usuario, pass,fullDate);
-                            System.out.println(fullDate);
                             JOptionPane.showMessageDialog(null,"Por seguridad se ha registrado su actividad","ATENCION",JOptionPane.DEFAULT_OPTION);
 
                         }
