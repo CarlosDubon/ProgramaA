@@ -6,14 +6,18 @@
 package GUI;
 
 import Database.DBQuery;
+import Sockets.Cliente;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -91,6 +95,7 @@ public class Login extends JFrame{
                         boolean flag;
                         if(sql.verificarUsuario(usuario, pass)){
                             if(sql.verificarCategory(usuario, pass)){
+                                btnValidar.setEnabled(false);
                                 btnSolAcceso.setEnabled(true);
                             }else{
                                 JOptionPane.showMessageDialog(null,"Usted no tiene la categoria suficiente para entrar","ATENCION",JOptionPane.DEFAULT_OPTION);
@@ -116,6 +121,38 @@ public class Login extends JFrame{
                 
                 }
         );
+        
+        btnSolAcceso.addActionListener(
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String cadena;
+                        btnSolAcceso.setEnabled(false);
+                        try {
+                            Cliente c = new Cliente();
+                            try {
+                                cadena = c.leer("Verificando");
+                                if(cadena.equals("GO")){
+                                    btnAbrirP.setEnabled(true);
+                                    JOptionPane.showMessageDialog(null,"ha sido autorizado. Abriendo puerta...","EXITO",JOptionPane.DEFAULT_OPTION);
+                                    System.exit(0);
+                                }else{
+                                    c.closeCon();
+                                    System.exit(0);
+                                }
+                            } catch (InterruptedException ex) {
+                            }
+                            
+                            
+                        } catch (IOException ex) {
+                        }
+                        
+                        
+
+                        
+                    }
+                
+        });
         
     }
     
