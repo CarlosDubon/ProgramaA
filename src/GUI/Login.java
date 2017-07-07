@@ -26,6 +26,7 @@ import javax.swing.*;
  * @author Carlos
  */
 public class Login extends JFrame{
+        public int count;
         private DBQuery sql;
         public JButton btnAbrirP;
     public Login(int w, int h, String title){
@@ -145,8 +146,7 @@ public class Login extends JFrame{
                     }
                 
                 }
-        );
-        
+        );         
     }
     
     private Timestamp getCurrentTime(){
