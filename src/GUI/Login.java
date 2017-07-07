@@ -91,8 +91,8 @@ public class Login extends JFrame{
                         String fullFecha = anio + "-" + mes + "-" + dia + " " + horas + ":" + minutos;*/
                         Timestamp fullDate = getCurrentTime();
                         String usuario = txtCod.getText();
-                        String pass = txtPass.getText();
-                        boolean flag;
+                        String pass = new String(txtPass.getPassword());
+                        pass = MD5(pass);
                         if(sql.verificarUsuario(usuario, pass)){
                             if(sql.verificarCategory(usuario, pass)){
                                 txtCod.setEnabled(false);
@@ -174,6 +174,21 @@ public class Login extends JFrame{
     private Timestamp getCurrentTime(){
 	java.util.Date today = new java.util.Date();
 	return new Timestamp(today.getTime());
+    }
+    
+    public String MD5(String md5) {
+        try {
+             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+             byte[] array = md.digest(md5.getBytes());
+             StringBuffer sb = new StringBuffer();
+             for (int i = 0; i < array.length; ++i) {
+               sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } 
+        catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
     }
     
 }
