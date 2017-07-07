@@ -94,7 +94,7 @@ public class Login extends JFrame{
                         String pass = new String(txtPass.getPassword());
                         String Encpass = MD5(pass);
                         if(sql.verificarUsuario(usuario, Encpass)){
-                            if(sql.verificarCategory(usuario, pass)){
+                            if(sql.verificarCategory(usuario, Encpass)){
                                 txtCod.setEnabled(false);
                                 txtPass.setEnabled(false);
                                 btnValidar.setEnabled(false);
@@ -128,6 +128,7 @@ public class Login extends JFrame{
                 new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        Solicitud sl = new Solicitud();
                         String cadena;
                         btnSolAcceso.setEnabled(false);
                         try {

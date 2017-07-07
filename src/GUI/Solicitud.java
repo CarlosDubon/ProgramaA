@@ -27,8 +27,8 @@ public class Solicitud extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFocusable(true);
         setLocationRelativeTo(null);
-                
-                
         setResizable(false);
+        
+        
     }
 }
