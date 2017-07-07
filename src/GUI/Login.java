@@ -13,6 +13,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -146,7 +148,45 @@ public class Login extends JFrame{
                     }
                 
                 }
-        );         
+        );
+        txtCod.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+            }
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                JTextField JAux= txtCod;
+                String Aux= JAux.getText();
+                int Limite= 5;
+                
+                if(Aux.length()> Limite-1){
+                    Aux=Aux.substring(0, Limite-1);
+                    JAux.setText(Aux);
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent ke) {
+            }
+        });
+        txtPass.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+            }
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                JTextField JAux= txtCod;
+                String Aux= JAux.getText();
+                int Limite= 30;
+                
+                if(Aux.length()> Limite-1){
+                    Aux=Aux.substring(0, Limite-1);
+                    JAux.setText(Aux);
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent ke) {
+            }
+        });
     }
     
     private Timestamp getCurrentTime(){
