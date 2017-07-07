@@ -31,6 +31,7 @@ public class Login extends JFrame{
         public int count;
         private DBQuery sql;
         public JButton btnAbrirP;
+        public JButton btnSolAcceso;
     public Login(int w, int h, String title){
         super(title);
         sql = new DBQuery();
@@ -51,7 +52,7 @@ public class Login extends JFrame{
         
         JPanel jpBotones = new JPanel();
         GridLayout gl2 = new GridLayout(4,0,3,10);
-        JButton btnSolAcceso = new JButton("Solicitar Acceso");
+        btnSolAcceso = new JButton("Solicitar Acceso");
         btnSolAcceso.setEnabled(false);
         btnAbrirP = new JButton("Abrir Puerta");
         btnAbrirP.setEnabled(false);
@@ -239,7 +240,9 @@ public class Login extends JFrame{
 
             } catch (IOException ex) {
                 JOptionPane.showConfirmDialog(null,"El servidor no esta disponible... conexion fallo","Advertencia",JOptionPane.CLOSED_OPTION);
-
+                s.dispose();
+                btnSolAcceso.setEnabled(true);
+                
             } 
         }
     
